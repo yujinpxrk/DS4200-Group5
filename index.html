@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CO2 Emissions Analysis</title>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+    
+    <h1> How Do Vehicle Features and Fuel Consumption Affect <br> CO2 Emissions in Passenger Vehicles?</h1>
+
+    <h3>Introduction</h3>
+
+    <p>The transportation sector plays a big role in global CO2 emissions, which are a major factor in climate change. As countries work to reduce greenhouse gas emissions, it is important to understand what affects CO2 emissions from vehicles. This dataset gives us a detailed look at vehicle features, fuel consumption, and CO2 emissions over a span of several years, including various features of such vehicles.</p>
+
+    <p>By examining this data, we aim to identify trends and correlations that could inform more sustainable vehicle design and consumer choices. The exploration of how fuel types, vehicle configurations, and fuel efficiency contribute to emissions is not only scientifically interesting but also essential for shaping policies that aim to reduce the environmental impact of personal transportation.</p>
+
+    <h3>References</h3>
+
+    <ul>
+        <li>Goodwin, P., Dargay, J., & Hanly, M. (2004). Decomposition of factors determining the trend of CO2 emissions from car travel in Great Britain (1970–2000). Ecological Economics, 51(2-3), 257-272. <a href="https://doi.org/10.1016/j.ecolecon.2004.06.015">https://doi.org/10.1016/j.ecolecon.2004.06.015</a></li>
+        <li>Schipper, L., Marie-Lilliu, C., & Gorham, R. (2003). CO2 emission benefit of diesel (versus gasoline) powered vehicles. Environmental Science & Technology, 37(17), 3758-3762. <a href="https://doi.org/10.1021/es034928d">https://doi.org/10.1021/es034928d</a></li>
+    </ul>
+
+    <h3>Relevant Images</h3>
+
+    <p>The following images illustrate trends and impacts of CO2 emissions in vehicles, referencing the analysis by  <a href="https://www.jato.com/resources/media-and-press-releases/increased-demand-for-evs-in-2020-contributed-to-a-12-fall-in-europes-average-co2-emissions/">JATO</a> (2021):</p>
+
+    <figure style="margin-bottom: 20px;">
+        <img src="./image1.png" alt="CO2 Emissions Trend 1" style="width: 60%; display: block; margin: 0 auto;" />
+        <figcaption style="margin-top: 10px;">Figure 1: Volume Weighted Average CO2 Emissions (g/km) by Segment.</figcaption>
+    </figure>
+    
+    <figure style="margin-bottom: 20px;">
+        <img src="./image2.png" alt="CO2 Emissions Trend 2" style="width: 60%; display: block; margin: 0 auto;" />
+        <figcaption style="margin-top: 10px;">Figure 2: Volume Weighted Average CO2 Emissions (g/km) by Fuel-Type.</figcaption>
+    </figure>
+
+    <h3>Data</h3>
+
+    <p>The dataset used in the project captures detailed information on CO2 emissions from vehicles, sourced from the official open data website of the Canadian government. It covers emissions data for cars over a span of seven years. The dataset consists of 7,385 rows and 12 columns, where each row corresponds to a specific car model with different features, and the columns represent attributes such as vehicle type, fuel consumption, engine size, and so on. Here is an overview of our dataset:</p>
+
+    <h3>Data Dictionary</h3>
+
+    <div class="center">
+        <table class="tg" style="width: 60%;">
+            <thead>
+                <tr>
+                    <th>Variable Name</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Make</td>
+                    <td>The manufacturer of the vehicle</td>
+                </tr>
+                <tr>
+                    <td>Model</td>
+                    <td>The model name of the vehicle</td>
+                </tr>
+                <tr>
+                    <td>Vehicle Class</td>
+                    <td>Classification of the vehicle based on interior volume for cars and gross vehicle weight rating for light trucks</td>
+                </tr>
+                <tr>
+                    <td>Engine Size (L)</td>
+                    <td>Total displacement of all cylinders (in liters)</td>
+                </tr>
+                <tr>
+                    <td>Cylinders</td>
+                    <td>Number of engine cylinders</td>
+                </tr>
+                <tr>
+                    <td>Transmission</td>
+                    <td>The type of transmission and number of gears/speeds</td>
+                </tr>
+                <tr>
+                    <td>Fuel Type</td>
+                    <td>The type of fuel used to power the vehicle</td>
+                </tr>
+                <tr>
+                    <td>Fuel Consumption City (L/100 km)</td>
+                    <td>City fuel consumption rating shown in liters per 100 kilometers</td>
+                </tr>
+                <tr>
+                    <td>Fuel Consumption Highway (L/100 km)</td>
+                    <td>Highway fuel consumption rating shown in liters per 100 kilometers</td>
+                </tr>
+                <tr>
+                    <td>Fuel Consumption Combined (L/100 km)</td>
+                    <td>Combined fuel consumption rating shown in liters per 100 kilometers</td>
+                </tr>
+                <tr>
+                    <td>Fuel Consumption Combined (mpg)</td>
+                    <td>The combined rating expressed in miles per imperial gallon</td>
+                </tr>
+                <tr>
+                    <td>CO2 Emissions (g/km)</td>
+                    <td>The vehicle’s tailpipe emissions of carbon dioxide shown in grams per kilometer for combined city and highway driving</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Abbreviations</h3>
+    <div class="center">
+        <table class="tg" style="width: 60%;">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Abbreviation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Model</td>
+                    <td>4WD/4X4 = Four-wheel drive; AWD = All-wheel drive; FFV = Flexible-fuel vehicle; SWB = Short wheelbase; LWB = Long wheelbase; EWB = Extended wheelbase</td>
+                </tr>
+                <tr>
+                    <td>Transmission</td>
+                    <td>A = Automatic; AM = Automated manual; AS = Automatic with select shift; AV = Continuously variable; M = Manual; 3 - 10 = Number of gears</td>
+                </tr>
+                <tr>
+                    <td>Fuel Type</td>
+                    <td>X = Regular gasoline; Z = Premium gasoline; D = Diesel; E = Ethanol (E85); N = Natural gas</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>Source: Government of Canada. (n.d.). Vehicle emissions data. Open Government Portal. <a href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64">https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64</a></p>
+
+    <h3>Static Visualizations</h3>
+
+    <p>The following static visualizations explore key insights regarding CO2 emissions based on vehicle features:</p>
+
+        <!-- First Visualization: CO2 Emissions by Vehicle Class -->
+        <figure style="text-align: center; margin-bottom: 20px;">
+            <img src="./average_vehicle class.png" alt="Average CO2 Emissions by Vehicle Class" style="width: 80%; display: block;" />
+            <figcaption style="margin-top: 10px;">Figure 1: Average CO2 Emissions by Vehicle Class.</figcaption>
+        </figure>
+
+        <!-- Second Visualization: CO2 Emissions vs Engine Size -->
+        <figure style="text-align: center; margin-bottom: 20px;">
+            <img src="./co2 vs engine size.png" alt="CO2 Emissions vs Engine Size" style="width: 80%; display: block;" />
+            <figcaption style="margin-top: 10px;">Figure 2: CO2 Emissions vs Engine Size.</figcaption>
+</figure>
+
+</body>
+</html>
