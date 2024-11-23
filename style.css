@@ -83,3 +83,57 @@ figure figcaption {
 .text {
     flex: 1; /* Allow text to grow to fill remaining space */
 }
+
+.d3-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tooltip {
+    position: absolute;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.bar {
+    transition: fill 0.3s ease;
+}
+.bar.inactive {
+    fill: #ddd !important;
+}
+.controls {
+    margin: 20px 0;
+}
+select, button {
+    padding: 8px 12px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+select:hover, button:hover {
+    border-color: #bbb;
+}
+.axis-label {
+    font-size: 12px;
+    fill: #666;
+}
+.loading {
+    font-size: 20px;
+    text-align: center;
+    padding: 20px;
+}
+.error {
+    color: #e74c3c;
+    text-align: center;
+    padding: 20px;
+}
