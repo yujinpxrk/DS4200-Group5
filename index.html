@@ -1,189 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CO2 Emissions Analysis</title>
-    <link href="style.css" rel="stylesheet" />
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CO2 Emissions Analysis</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Inter', sans-serif;
+            }
+            
+            .gradient-header {
+                background: linear-gradient(135deg, #1e4d92 0%, #2ea0c4 100%);
+            }
+        </style>
+    </head>
+<body class="bg-gray-50">
     
-    <h1> How Do Vehicle Features and Fuel Consumption Affect <br> CO2 Emissions in Passenger Vehicles?</h1>
-
-    <h3>Introduction</h3>
-
-    <p>The transportation sector plays a big role in global CO2 emissions, which are a major factor in climate change. As countries work to reduce greenhouse gas emissions, it is important to understand what affects CO2 emissions from vehicles. This dataset gives us a detailed look at vehicle features, fuel consumption, and CO2 emissions over a span of several years, including various features of such vehicles.</p>
-
-    <p>By examining this data, we aim to identify trends and correlations that could inform more sustainable vehicle design and consumer choices. The exploration of how fuel types, vehicle configurations, and fuel efficiency contribute to emissions is not only scientifically interesting but also essential for shaping policies that aim to reduce the environmental impact of personal transportation.</p>
-
-    <h3>References</h3>
-
-    <ul>
-        <li>Goodwin, P., Dargay, J., & Hanly, M. (2004). Decomposition of factors determining the trend of CO2 emissions from car travel in Great Britain (1970–2000). Ecological Economics, 51(2-3), 257-272. <a href="https://doi.org/10.1016/j.ecolecon.2004.06.015">https://doi.org/10.1016/j.ecolecon.2004.06.015</a></li>
-        <li>Schipper, L., Marie-Lilliu, C., & Gorham, R. (2003). CO2 emission benefit of diesel (versus gasoline) powered vehicles. Environmental Science & Technology, 37(17), 3758-3762. <a href="https://doi.org/10.1021/es034928d">https://doi.org/10.1021/es034928d</a></li>
-    </ul>
-
-    <h3>Relevant Images</h3>
-
-    <p>The following images illustrate trends and impacts of CO2 emissions in vehicles, referencing the analysis by  <a href="https://www.jato.com/resources/media-and-press-releases/increased-demand-for-evs-in-2020-contributed-to-a-12-fall-in-europes-average-co2-emissions/">JATO</a> (2021):</p>
-
-    <figure style="margin-bottom: 20px;">
-        <img src="./image1.png" alt="CO2 Emissions Trend 1" style="width: 60%; display: block; margin: 0 auto;" />
-        <figcaption style="margin-top: 10px;">Figure 1: Volume Weighted Average CO2 Emissions (g/km) by Segment.</figcaption>
-    </figure>
-    
-    <figure style="margin-bottom: 20px;">
-        <img src="./image2.png" alt="CO2 Emissions Trend 2" style="width: 60%; display: block; margin: 0 auto;" />
-        <figcaption style="margin-top: 10px;">Figure 2: Volume Weighted Average CO2 Emissions (g/km) by Fuel-Type.</figcaption>
-    </figure>
-
-    <h3>Data</h3>
-
-    <p>The dataset used in the project captures detailed information on CO2 emissions from vehicles, sourced from the official open data website of the Canadian government. It covers emissions data for cars over a span of seven years. The dataset consists of 7,385 rows and 12 columns, where each row corresponds to a specific car model with different features, and the columns represent attributes such as vehicle type, fuel consumption, engine size, and so on. Here is an overview of our dataset:</p>
-
-    <h3>Data Dictionary</h3>
-
-    <div class="center">
-        <table class="tg" style="width: 60%;">
-            <thead>
-                <tr>
-                    <th>Variable Name</th>
-                    <th>Details</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Make</td>
-                    <td>The manufacturer of the vehicle</td>
-                </tr>
-                <tr>
-                    <td>Model</td>
-                    <td>The model name of the vehicle</td>
-                </tr>
-                <tr>
-                    <td>Vehicle Class</td>
-                    <td>Classification of the vehicle based on interior volume for cars and gross vehicle weight rating for light trucks</td>
-                </tr>
-                <tr>
-                    <td>Engine Size (L)</td>
-                    <td>Total displacement of all cylinders (in liters)</td>
-                </tr>
-                <tr>
-                    <td>Cylinders</td>
-                    <td>Number of engine cylinders</td>
-                </tr>
-                <tr>
-                    <td>Transmission</td>
-                    <td>The type of transmission and number of gears/speeds</td>
-                </tr>
-                <tr>
-                    <td>Fuel Type</td>
-                    <td>The type of fuel used to power the vehicle</td>
-                </tr>
-                <tr>
-                    <td>Fuel Consumption City (L/100 km)</td>
-                    <td>City fuel consumption rating shown in liters per 100 kilometers</td>
-                </tr>
-                <tr>
-                    <td>Fuel Consumption Highway (L/100 km)</td>
-                    <td>Highway fuel consumption rating shown in liters per 100 kilometers</td>
-                </tr>
-                <tr>
-                    <td>Fuel Consumption Combined (L/100 km)</td>
-                    <td>Combined fuel consumption rating shown in liters per 100 kilometers</td>
-                </tr>
-                <tr>
-                    <td>Fuel Consumption Combined (mpg)</td>
-                    <td>The combined rating expressed in miles per imperial gallon</td>
-                </tr>
-                <tr>
-                    <td>CO2 Emissions (g/km)</td>
-                    <td>The vehicle’s tailpipe emissions of carbon dioxide shown in grams per kilometer for combined city and highway driving</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h3>Abbreviations</h3>
-    <div class="center">
-        <table class="tg" style="width: 60%;">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Abbreviation</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Model</td>
-                    <td>4WD/4X4 = Four-wheel drive; AWD = All-wheel drive; FFV = Flexible-fuel vehicle; SWB = Short wheelbase; LWB = Long wheelbase; EWB = Extended wheelbase</td>
-                </tr>
-                <tr>
-                    <td>Transmission</td>
-                    <td>A = Automatic; AM = Automated manual; AS = Automatic with select shift; AV = Continuously variable; M = Manual; 3 - 10 = Number of gears</td>
-                </tr>
-                <tr>
-                    <td>Fuel Type</td>
-                    <td>X = Regular gasoline; Z = Premium gasoline; D = Diesel; E = Ethanol (E85); N = Natural gas</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <p>Source: Government of Canada. (n.d.). Vehicle emissions data. Open Government Portal. <a href="https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64">https://open.canada.ca/data/en/dataset/98f1a129-f628-4ce4-b24d-6f16bf24dd64</a></p>
-
-    <h3>Static Visualizations</h3>
-
-    <p>The following static visualizations explore key insights regarding CO2 emissions based on vehicle features:</p>
-
-        <!-- First Visualization: CO2 Emissions by Vehicle Class -->
-        <figure style="text-align: center; margin-bottom: 20px;">
-            <img src="./average_vehicle class.png" alt="Average CO2 Emissions by Vehicle Class" style="width: 80%; display: block;" />
-            <figcaption style="margin-top: 10px;">Figure 1: Average CO2 Emissions by Vehicle Class.</figcaption>
-            <p>This bar chart shows how CO2 emissions vary across different vehicle classes, with a clear upward trend from smaller to larger vehicles. Station wagons and compact vehicles produce the lowest emissions (around 200 g/km), while larger vehicles like vans and passenger vans emit significantly more CO2 (approaching 400 g/km). The progression in emissions aligns logically with vehicle size and utility, suggesting that vehicle class is a strong determinant of environmental impact. This visualization demonstrates that choosing a smaller vehicle class typically results in lower CO2 emissions.</p>
-        </figure>
-
-        <!-- Second Visualization: CO2 Emissions vs Engine Size -->
-        <figure style="text-align: center; margin-bottom: 20px;">
-            <img src="./co2 vs engine size.png" alt="CO2 Emissions vs Engine Size" style="width: 80%; display: block;" />
-            <figcaption style="margin-top: 10px;">Figure 2: CO2 Emissions vs Engine Size.</figcaption>
-            <p>This scatter plot reveals a strong positive correlation between engine size and CO2 emissions. As engine size increases from 1L to 8L, there is a clear upward trend in emissions, rising from around 100-200 g/km for smaller engines to over 400 g/km for larger ones. The relationship appears to be relatively linear, though there is some variation within each engine size category, suggesting that other factors also influence emissions. This visualization clearly demonstrates that larger engine sizes consistently result in higher CO2 emissions.</p>
-        </figure>
-
-    <h3>Interactive Visualization</h3>
-
-    <p>Below are interactive visualizations explore different aspects regarding CO2 emissions based on vehicle features:</p> 
-
-    <!-- First Interactive Visualization: Combined Fuel Consumption vs CO2 Emissions-->
-    <figure style="text-align: center; margin-bottom: 20px;">
-        <iframe src="./interactive_visualization.html" width="500" height="500" style="border: none;"></iframe>
-        <figcaption style="margin-top: 10px;">Figure 3: Combined Fuel Consumption vs CO2 Emissions.</figcaption>
-    </figure>
-
-    <!-- Second Interactive Visualization: Average CO2 Emissions by Make-->
-    <figure style="text-align: center; margin-bottom: 20px;">
-        <iframe src="./sec_interactive_visualization.html" width="700" height="650" style="border: none;"></iframe>
-        <figcaption style="margin-top: 10px;">Figure 4: Average CO2 Emissions by Make.</figcaption>
-        <p>This bar chart illustrates the average CO2 emissions across different vehicle manufacturers, revealing stark contrasts in environmental impact. Bugatti shows the highest emissions at approximately 520 g/km, followed by other luxury brands like Lamborghini and Rolls-Royce in the 350-400 g/km range. In contrast, mainstream manufacturers such as Fiat, Smart, and various Asian brands maintain lower emissions below 250 g/km. This pattern clearly demonstrates how a manufacturer's market positioning—whether focused on high-performance luxury vehicles or practical, efficient transportation—directly influences their vehicles' environmental impact, with luxury brands consistently showing significantly higher emission levels than their mainstream counterparts.</p>
-    </figure>
-</figure>
-
-<figure style="text-align: center; margin-bottom: 20px;">
-    <div class="chord-container">
-        <div class="controls">
-            <h3>CO2 Emissions Relationship Network</h3>
-            <p>Shows strength of relationships between vehicle features and CO2 emission levels</p>
+    <header class="gradient-header text-white py-12 px-4 mb-8">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-4xl font-bold text-center leading-tight">
+                How Do Vehicle Features and Fuel Consumption Affect<br>CO2 Emissions in Passenger Vehicles?
+            </h1>
         </div>
-        <div id="chord-diagram"></div>
-    </div>
-    <figcaption style="margin-top: 10px;">Figure 5: CO2 Emissions Factor Relationships Network.</figcaption>
-    <p>
-        This chord diagram reveals the complex interrelationships between various vehicle characteristics and their impact on CO2 emissions. The strongest connections appear to be between Engine Size and CO2 emissions (shown by the thick red ribbons), indicating that larger engines generally correspond to higher emission levels. There's also a notable relationship between fuel consumption (both city and highway) and CO2 emissions, demonstrated by the substantial connections from the orange and purple segments. Vehicle Class shows moderate connections to both engine size and emissions, suggesting that certain vehicle categories tend to have larger engines and consequently higher emissions. The Fuel Type category appears to have thinner connections, indicating it may have a less direct influence on emissions compared to other factors. The extensive interconnections between fuel consumption metrics, engine size, and CO2 emissions highlight that these factors work together in determining a vehicle's environmental impact, with engine size appearing to be the most influential factor. This visualization effectively demonstrates that CO2 emissions are not determined by a single factor but rather by the complex interplay of multiple vehicle characteristics, with engine size and fuel consumption patterns being particularly significant determinants.
-    </p>
-</figure>
+    </header>
+    
+        <main class="max-w-5xl mx-auto px-4">
+            <section class="bg-white rounded-lg shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Introduction</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">
+                    The transportation sector plays a big role in global CO2 emissions, which are a major factor in climate change. As countries work to reduce greenhouse gas emissions, it is important to understand what affects CO2 emissions from vehicles. This dataset gives us a detailed look at vehicle features, fuel consumption, and CO2 emissions over a span of several years, including various features of such vehicles.
+                </p>
+                <p class="text-gray-600 leading-relaxed">
+                    By examining this data, we aim to identify trends and correlations that could inform more sustainable vehicle design and consumer choices. The exploration of how fuel types, vehicle configurations, and fuel efficiency contribute to emissions is not only scientifically interesting but also essential for shaping policies that aim to reduce the environmental impact of personal transportation.
+                </p>
+            </section>
+    
+            <section class="bg-white rounded-lg shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">References</h2>
+                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                    <li>Goodwin, P., Dargay, J., & Hanly, M. (2004). <a href="https://doi.org/10.1016/j.ecolecon.2004.06.015" class="text-blue-600 hover:text-blue-800">Decomposition of factors determining the trend of CO2 emissions from car travel in Great Britain (1970–2000)</a></li>
+                    <li>Schipper, L., Marie-Lilliu, C., & Gorham, R. (2003). <a href="https://doi.org/10.1021/es034928d" class="text-blue-600 hover:text-blue-800">CO2 emission benefit of diesel (versus gasoline) powered vehicles</a></li>
+                </ul>
+            </section>
+    
+            <section class="bg-white rounded-lg shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Relevant Images</h2>
+                <p class="text-gray-600 mb-6">The following images illustrate trends and impacts of CO2 emissions in vehicles, referencing the analysis by <a href="https://www.jato.com/resources/media-and-press-releases/increased-demand-for-evs-in-2020-contributed-to-a-12-fall-in-europes-average-co2-emissions/" class="text-blue-600 hover:text-blue-800">JATO</a> (2021):</p>
+                
+                <div class="space-y-8">
+                    <figure class="text-center">
+                        <img src="./image1.png" alt="CO2 Emissions Trend 1" class="w-4/5 mx-auto rounded-lg shadow-md"/>
+                        <figcaption class="mt-4 text-sm text-gray-600">
+                            Figure 1: Volume Weighted Average CO2 Emissions (g/km) by Segment.
+                        </figcaption>
+                    </figure>
+    
+                    <figure class="text-center">
+                        <img src="./image2.png" alt="CO2 Emissions Trend 2" class="w-4/5 mx-auto rounded-lg shadow-md"/>
+                        <figcaption class="mt-4 text-sm text-gray-600">
+                            Figure 2: Volume Weighted Average CO2 Emissions (g/km) by Fuel-Type.
+                        </figcaption>
+                    </figure>
+                </div>
+            </section>
+    
+            <section class="bg-white rounded-lg shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Data Dictionary</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Variable Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Make</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">The manufacturer of the vehicle</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Model</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">The model name of the vehicle</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Vehicle Class</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">Classification of the vehicle based on interior volume for cars and gross vehicle weight rating for light trucks</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Engine Size (L)</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">Total displacement of all cylinders (in liters)</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Cylinders</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">Number of engine cylinders</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Transmission</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">The type of transmission and number of gears/speeds</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fuel Type</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">The type of fuel used to power the vehicle</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fuel Consumption City (L/100 km)</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">City fuel consumption rating shown in liters per 100 kilometers</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fuel Consumption Highway (L/100 km)</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">Highway fuel consumption rating shown in liters per 100 kilometers</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fuel Consumption Combined (L/100 km)</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">Combined fuel consumption rating shown in liters per 100 kilometers</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fuel Consumption Combined (mpg)</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">The combined rating expressed in miles per imperial gallon</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">CO2 Emissions (g/km)</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">The vehicle's tailpipe emissions of carbon dioxide shown in grams per kilometer for combined city and highway driving</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+    
+            <section class="bg-white rounded-lg shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Abbreviations</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Abbreviation</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Model</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">4WD/4X4 = Four-wheel drive; AWD = All-wheel drive; FFV = Flexible-fuel vehicle; SWB = Short wheelbase; LWB = Long wheelbase; EWB = Extended wheelbase</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Transmission</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">A = Automatic; AM = Automated manual; AS = Automatic with select shift; AV = Continuously variable; M = Manual; 3 - 10 = Number of gears</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Fuel Type</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">X = Regular gasoline; Z = Premium gasoline; D = Diesel; E = Ethanol (E85); N = Natural gas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+    
+            <section class="bg-white rounded-lg shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Static Visualizations</h2>
+                <div class="space-y-12">
+                    <figure>
+                        <img src="./average_vehicle class.png" alt="Average CO2 Emissions by Vehicle Class" class="w-full rounded-lg shadow-md"/>
+                        <figcaption class="mt-4 text-sm text-gray-600 text-center">
+                            Figure 3: Average CO2 Emissions by Vehicle Class
+                        </figcaption>
+                        <p class="mt-4 text-gray-600 leading-relaxed">
+                            This bar chart shows how CO2 emissions vary across different vehicle classes, with a clear upward trend from smaller to larger vehicles. Station wagons and compact vehicles produce the lowest emissions (around 200 g/km), while larger vehicles like vans and passenger vans emit significantly more CO2 (approaching 400 g/km).
+                        </p>
+                    </figure>
+    
+                    <figure>
+                        <img src="./co2 vs engine size.png" alt="CO2 Emissions vs Engine Size" class="w-full rounded-lg shadow-md"/>
+                        <figcaption class="mt-4 text-sm text-gray-600 text-center">
+                            Figure 4: CO2 Emissions vs Engine Size
+                        </figcaption>
+                        <p class="mt-4 text-gray-600 leading-relaxed">
+                            This scatter plot reveals a strong positive correlation between engine size and CO2 emissions. As engine size increases from 1L to 8L, there is a clear upward trend in emissions, rising from around 100-200 g/km for smaller engines to over 400 g/km for larger ones.
+                        </p>
+                    </figure>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-lg shadow-md p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Interactive Visualizations</h2>
+                
+                <!-- First Interactive Visualization -->
+                <div class="mb-12">
+                    <div class="bg-gray-50 rounded-lg p-6 mb-4">
+                        <iframe 
+                            src="./interactive_visualization.html" 
+                            class="w-full h-[500px] border-none rounded-lg shadow-md bg-white"
+                            title="Combined Fuel Consumption vs CO2 Emissions">
+                        </iframe>
+                    </div>
+                    <figcaption class="text-center">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Figure 3: Combined Fuel Consumption vs CO2 Emissions</h3>
+                        <p class="text-gray-600 text-sm max-w-3xl mx-auto">
+                            This interactive visualization allows you to explore the relationship between fuel consumption and CO2 emissions across different vehicle types and manufacturers.
+                        </p>
+                    </figcaption>
+                </div>
+            
+                <!-- Second Interactive Visualization -->
+                <div class="mb-12">
+                    <div class="bg-gray-50 rounded-lg p-6 mb-4">
+                        <iframe 
+                            src="./sec_interactive_visualization.html" 
+                            class="w-full h-[650px] border-none rounded-lg shadow-md bg-white"
+                            title="Average CO2 Emissions by Make">
+                        </iframe>
+                    </div>
+                    <figcaption class="text-center">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Figure 4: Average CO2 Emissions by Make</h3>
+                        <p class="text-gray-600 text-sm max-w-3xl mx-auto">
+                            This bar chart illustrates the average CO2 emissions across different vehicle manufacturers, revealing stark contrasts in environmental impact. Bugatti shows the highest emissions at approximately 520 g/km, followed by other luxury brands like Lamborghini and Rolls-Royce in the 350-400 g/km range. In contrast, mainstream manufacturers such as Fiat, Smart, and various Asian brands maintain lower emissions below 250 g/km.
+                        </p>
+                    </figcaption>
+                </div>
+            
+                <!-- Chord Diagram -->
+                <div>
+                    <div class="chord-container bg-gray-50 rounded-lg p-6 mb-4">
+                        <div class="controls text-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">CO2 Emissions Relationship Network</h3>
+                            <p class="text-gray-600 text-sm">Shows strength of relationships between vehicle features and CO2 emission levels</p>
+                        </div>
+                        <div id="chord-diagram" class="w-full h-[600px] bg-white rounded-lg shadow-md"></div>
+                    </div>
+                    <figcaption class="text-center">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Figure 5: CO2 Emissions Factor Relationships Network</h3>
+                        <p class="text-gray-600 text-sm max-w-3xl mx-auto">
+                            This chord diagram reveals the complex interrelationships between various vehicle characteristics and their impact on CO2 emissions. The strongest connections appear to be between Engine Size and CO2 emissions (shown by the thick red ribbons), indicating that larger engines generally correspond to higher emission levels. There's also a notable relationship between fuel consumption (both city and highway) and CO2 emissions, demonstrated by the substantial connections from the orange and purple segments.
+                        </p>
+                    </figcaption>
+                </div>
+            </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="chord-diagram.js"></script>
+
+</main>
 
 </body>
 </html>
