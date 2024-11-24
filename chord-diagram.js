@@ -131,12 +131,3 @@ svg.append("g")
     .on("mouseout", function() {
         tooltip.style("opacity", 0);
     });
-
-// Add title
-svg.append("text")
-    .attr("x", 0)
-    .attr("y", -height/2 + 20)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("font-weight", "bold")
-    .text("CO2 Emissions Relationship Network");
